@@ -13,6 +13,8 @@ const gameboard = function () {
 
 
   const getBoard = () => board;
+  const getRow = () => row;
+  const getCol = () => col;
   const addToken = (row, col, token) => {
     board[row][col] = token;
   };
@@ -89,17 +91,13 @@ const gameboard = function () {
 
  
   };
-  return { getBoard, addToken, getElement,check,checkFill };
+  return { getRow,getCol,getBoard, addToken, getElement,check,checkFill };
 };
 
-function gameController(
-  playerOneName = "Player 1",
-  playerTwoName = "Player 2"
-) {
-  const board = gameboard();
+function gameController(playerOneName='x',playerTwoName='o') {
   const players = [
     {
-      name: playerOneName,
+      name:  playerOneName ,
       token: "x",
     },
     {
@@ -107,6 +105,8 @@ function gameController(
       token: "o",
     },
   ];
+  const board = gameboard();
+  console.log(players);
   let activePlayer = players[0];
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -120,31 +120,73 @@ function gameController(
       }'s Turn,Enter coordinates where you want to place your token using 'game.playRound(row,col)'`
     );
   };
-  let count = 0;
+
   const playRound = (row, col) => {
 
     if (board.getElement(row, col) == '') {
-      count++;
       console.log(
         `Dropping ${getActivePlayer().name}'s token into position ${row},${col}`
       );
       board.addToken(row, col, getActivePlayer().token);
-     
+      //check for win
         if (board.check() == 'x') {
           console.log('X won i.e Player 1 has won !!! Refresh to play again');
+          return 'x';
         } else if (board.check() == 'o') {
           console.log('O i.e. Player 2 has won!!! Refresh to play again');
-        } else if (board.check() == 'tie') console.log('The game tied Refresh to play again');
+          return 'o';
+        } else if (board.check() == 'tie') {
+          console.log('The game tied Refresh to play again');
+          return 'tie';
+        } 
+      
   
       switchPlayerTurn();
       printNewRound();
+      return null;
     } else console.log(`You can't override other players token lol(choose a different position(other than ${row},${col}))`);
   };
   printNewRound();
   return {
     playRound,
     getActivePlayer,
+    // getBoard: board.getBoard
   };
 }
+// const game = gameController();
 
-const game = gameController();
+
+function display() {
+  const game = gameController();
+  const board = gameboard();  
+  const container = document.querySelector('.container');
+  const playerTurnDiv = document.querySelector('.turn');
+  const boardDiv = document.querySelector('.board');
+  const btns = document.querySelectorAll('.btn');
+  btns.forEach((btn) => {
+    const rowIndex = parseInt(btn.dataset.rowIndex);
+    const colIndex = parseInt(btn.dataset.colIndex);
+    btn.addEventListener('click', () => {
+      console.log(rowIndex, colIndex);
+      if (btn.textContent == '') {
+        btn.textContent = game.getActivePlayer().token;
+      } else return;
+      const result = game.playRound(rowIndex, colIndex);
+      if (result == 'x') {
+        playerTurnDiv.textContent = 'X won i.e Player 1 has won !!! Refresh to play again';
+        return;
+      } if (result == 'o') {
+        playerTurnDiv.textContent = 'O won i.e Player 2 has won !!! Refresh to play again';
+        return;
+      } if (result == 'tie') {
+        playerTurnDiv.textContent = 'Tied !! Refresh to play again';
+        return;
+      }
+      console.log(game.getActivePlayer().token);
+    })
+  })
+}
+
+
+display();
+

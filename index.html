@@ -1,20 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <h1>Tic Tac Toe</h1>
+    <div class="form">
+      Enter Players Name :
+      <form>
+        <label for="player1">
+          <input
+            type="text"
+            placeholder="Enter Player 1's name"
+            required
+            id="player1"
+            name="player1"
+          />
+        </label>
+        <label for="player2">
+          <input
+            type="text"
+            placeholder="Enter Player 2's name"
+            required
+            id="player2"
+            name="player2"
+          />
+        </label>
+        <button type="submit" id="start">Start Game</button>
+      </form>
+    </div>
 
-<h1>Tic Tac Toe </h1>
+    <div class="container">
+      <div class="turn"></div>
+      <div class="board">
+        <button class="btn" data-row-index="0" data-col-index="0"></button>
+        <button class="btn" data-row-index="0" data-col-index="1"></button>
+        <button class="btn" data-row-index="0" data-col-index="2"></button>
+        <button class="btn" data-row-index="1" data-col-index="0"></button>
+        <button class="btn" data-row-index="1" data-col-index="1"></button>
+        <button class="btn" data-row-index="1" data-col-index="2"></button>
+        <button class="btn" data-row-index="2" data-col-index="0"></button>
+        <button class="btn" data-row-index="2" data-col-index="1"></button>
+        <button class="btn" data-row-index="2" data-col-index="2"></button>
+    </div>
+    </div>
 
-
-
-
-
-    
     <script src="./script.js"></script>
-</body>
+  </body>
 </html>

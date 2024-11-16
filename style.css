@@ -1,4 +1,23 @@
-*{
+/* *{
     background-color: black;
     color: white;
+} */
+
+.container{
+    border: 2px solied black;
+
+    width:  fit-content;
+}
+.board{
+    justify-content: center;
+    gap: 2px;
+    display: flex;
+    max-width: 350px;
+    flex-wrap: wrap;
+}
+.board > button{
+    font-size: 35px;
+    border: 3px solid black;
+    height: 100px;
+    width: 100px;
 }
