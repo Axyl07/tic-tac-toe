@@ -1,23 +1,44 @@
-/* *{
+*{
     background-color: black;
     color: white;
-} */
-
+}
+h1{
+    display: flex;
+    justify-content: center;
+}
 .container{
-    border: 2px solied black;
-
+    padding: 20px;
+    border: 2px solied white;
+    max-width: 50vw;
     width:  fit-content;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 .board{
+    padding: 10px;
     justify-content: center;
-    gap: 2px;
+    gap: 10px;
     display: flex;
-    max-width: 350px;
+    max-width: 500px;
     flex-wrap: wrap;
 }
 .board > button{
     font-size: 35px;
-    border: 3px solid black;
-    height: 100px;
-    width: 100px;
+    border: 3px solid white;
+    border-radius: 10px;
+    height: 150px;
+    width: 150px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    max-width: 50vw;
+}
+
+.outer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }

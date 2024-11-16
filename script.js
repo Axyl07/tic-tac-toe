@@ -1,16 +1,13 @@
-
-
-const gameboard = function () {
+const gameboard = (function () {
   const row = 3;
   const col = 3;
   const board = [];
   for (let i = 0; i < row; i++) {
     board[i] = [];
     for (let j = 0; j < col; j++) {
-      board[i].push('');
+      board[i].push("");
     }
   }
-
 
   const getBoard = () => board;
   const getRow = () => row;
@@ -22,17 +19,19 @@ const gameboard = function () {
     return board[row][col];
   };
   const checkFill = () => {
-    
-      for (let i = 0; i < board.length; i++) {
-        for (let j = 0; j < board[i].length; j++) {
-          if (board[i][j] === undefined || board[i][j] === null || board[i][j]==='') {
-            return false; // array is not fully filled
-          }
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (
+          board[i][j] === undefined ||
+          board[i][j] === null ||
+          board[i][j] === ""
+        ) {
+          return false; // array is not fully filled
         }
       }
-      return true; // array is fully filled
-    
-  }
+    }
+    return true; // array is fully filled
+  };
   const check = () => {
     function arrayEquals(a, b) {
       if (a.length !== b.length) return false;
@@ -41,8 +40,8 @@ const gameboard = function () {
       }
       return true;
     }
-    let sampleX = ['x', 'x', 'x'];
-    let sampleO = ['o', 'o', 'o'];
+    let sampleX = ["x", "x", "x"];
+    let sampleO = ["o", "o", "o"];
     //divide 2d matrix to 8 1d matrices to check for consecutive x or o's
     let row0 = [];
     row0.push(board[0][0], board[0][1], board[0][2]);
@@ -62,58 +61,60 @@ const gameboard = function () {
     diag1.push(board[0][2], board[1][1], board[2][0]);
     //check conditions
     if (arrayEquals(row0, sampleX)) {
-      return 'x';
-    } else if (arrayEquals(row0, sampleO)) return 'o';
+      return "x";
+    } else if (arrayEquals(row0, sampleO)) return "o";
     else if (arrayEquals(row1, sampleX)) {
-      return 'x';
-    } else if (arrayEquals(row1, sampleO)) return 'o';
+      return "x";
+    } else if (arrayEquals(row1, sampleO)) return "o";
     else if (arrayEquals(row2, sampleX)) {
-      return 'x';
-    } else if (arrayEquals(row2, sampleO)) return 'o';
+      return "x";
+    } else if (arrayEquals(row2, sampleO)) return "o";
     else if (arrayEquals(col0, sampleX)) {
-      return 'x';
-    } else if (arrayEquals(col0, sampleO)) return 'o';
+      return "x";
+    } else if (arrayEquals(col0, sampleO)) return "o";
     else if (arrayEquals(col1, sampleX)) {
-      return 'x';
-    } else if (arrayEquals(col1, sampleO)) return 'o';
+      return "x";
+    } else if (arrayEquals(col1, sampleO)) return "o";
     else if (arrayEquals(col2, sampleX)) {
-      return 'x';
-    } else if (arrayEquals(col2, sampleO)) return 'o';
+      return "x";
+    } else if (arrayEquals(col2, sampleO)) return "o";
     else if (arrayEquals(diag0, sampleX)) {
-      return 'x';
-    } else if (arrayEquals(diag0, sampleO)) return 'o';
+      return "x";
+    } else if (arrayEquals(diag0, sampleO)) return "o";
     else if (arrayEquals(diag1, sampleX)) {
-      return 'x';
-    } else if (arrayEquals(diag1, sampleO)) return 'o';
-    if (checkFill()) return 'tie';
+      return "x";
+    } else if (arrayEquals(diag1, sampleO)) return "o";
+    if (checkFill()) return "tie";
     return null;
-
-
- 
   };
-  return { getRow,getCol,getBoard, addToken, getElement,check,checkFill };
-};
+  return { getRow, getCol, getBoard, addToken, getElement, check, checkFill };
+})();
 
-function gameController(playerOneName='x',playerTwoName='o') {
+function gameController(playerOneName = "x", playerTwoName = "o") {
   const players = [
     {
-      name:  playerOneName ,
+      name: playerOneName,
       token: "x",
+      score: 0,
     },
     {
       name: playerTwoName,
       token: "o",
+      score: 0,
     },
   ];
-  const board = gameboard();
+  // const board = gameboard();
   console.log(players);
+  let p1score = players[0].score;
+  let p2score = players[1].score;
+
   let activePlayer = players[0];
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
   const getActivePlayer = () => activePlayer;
   const printNewRound = () => {
-    console.log(board.getBoard());
+    console.log(gameboard.getBoard());
     console.log(
       `It's ${
         getActivePlayer().name
@@ -122,29 +123,30 @@ function gameController(playerOneName='x',playerTwoName='o') {
   };
 
   const playRound = (row, col) => {
-
-    if (board.getElement(row, col) == '') {
+    if (gameboard.getElement(row, col) == "") {
       console.log(
         `Dropping ${getActivePlayer().name}'s token into position ${row},${col}`
       );
-      board.addToken(row, col, getActivePlayer().token);
+      gameboard.addToken(row, col, getActivePlayer().token);
       //check for win
-        if (board.check() == 'x') {
-          console.log('X won i.e Player 1 has won !!! Refresh to play again');
-          return 'x';
-        } else if (board.check() == 'o') {
-          console.log('O i.e. Player 2 has won!!! Refresh to play again');
-          return 'o';
-        } else if (board.check() == 'tie') {
-          console.log('The game tied Refresh to play again');
-          return 'tie';
-        } 
-      
-  
+      if (gameboard.check() == "x") {
+        console.log("X won i.e Player 1 has won !!! Refresh to play again");
+        return "x";
+      } else if (gameboard.check() == "o") {
+        console.log("O i.e. Player 2 has won!!! Refresh to play again");
+        return "o";
+      } else if (gameboard.check() == "tie") {
+        console.log("The game tied Refresh to play again");
+        return "tie";
+      }
+
       switchPlayerTurn();
       printNewRound();
       return null;
-    } else console.log(`You can't override other players token lol(choose a different position(other than ${row},${col}))`);
+    } else
+      console.log(
+        `You can't override other players token lol(choose a different position(other than ${row},${col}))`
+      );
   };
   printNewRound();
   return {
@@ -155,38 +157,60 @@ function gameController(playerOneName='x',playerTwoName='o') {
 }
 // const game = gameController();
 
-
 function display() {
   const game = gameController();
-  const board = gameboard();  
-  const container = document.querySelector('.container');
-  const playerTurnDiv = document.querySelector('.turn');
-  const boardDiv = document.querySelector('.board');
-  const btns = document.querySelectorAll('.btn');
+  // let board = gameboard().getBoard();
+  // console.log(board);
+  const container = document.querySelector(".container");
+  const playerTurnDiv = document.querySelector(".turn");
+  const boardDiv = document.querySelector(".board");
+
+  const btns = document.querySelectorAll(".btn");
   btns.forEach((btn) => {
     const rowIndex = parseInt(btn.dataset.rowIndex);
     const colIndex = parseInt(btn.dataset.colIndex);
-    btn.addEventListener('click', () => {
+    btn.addEventListener("click", () => {
       console.log(rowIndex, colIndex);
-      if (btn.textContent == '') {
+      if (btn.textContent == "") {
         btn.textContent = game.getActivePlayer().token;
       } else return;
       const result = game.playRound(rowIndex, colIndex);
-      if (result == 'x') {
-        playerTurnDiv.textContent = 'X won i.e Player 1 has won !!! Refresh to play again';
-        return;
-      } if (result == 'o') {
-        playerTurnDiv.textContent = 'O won i.e Player 2 has won !!! Refresh to play again';
-        return;
-      } if (result == 'tie') {
-        playerTurnDiv.textContent = 'Tied !! Refresh to play again';
+      if (result == "x") {
+        playerTurnDiv.textContent =
+          "X won i.e Player 1 has won !!! Press Reset to play again";
+    
+  
         return;
       }
+      if (result == "o") {
+        playerTurnDiv.textContent =
+          "O won i.e Player 2 has won !!! Press Reset to play again";
+
+     
+        return;
+      }
+      if (result == "tie") {
+        playerTurnDiv.textContent = "Tied !! Press Reset to play again";
+        return;
+      }
+      const reset = document.querySelector("#reset");
+      reset.addEventListener("click", () => {
+        let board = gameboard.getBoard();
+        console.log(gameboard);
+       
+        for (let i = 0; i < 3; i++) {
+          board[i] = [];
+          for (let j = 0; j < 3; j++) {
+            board[i].push("");
+          }
+        }
+        btns.forEach((btn) => {
+          btn.textContent = "";
+        });
+      });
       console.log(game.getActivePlayer().token);
-    })
-  })
+    });
+  });
 }
 
-
 display();
-
