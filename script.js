@@ -20,21 +20,6 @@ start.addEventListener('click', () => {
     }
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const gameboard = (function () {
   const row = 3;
   const col = 3;
@@ -77,8 +62,8 @@ const gameboard = (function () {
       }
       return true;
     }
-    let sampleX = ["x", "x", "x"];
-    let sampleO = ["o", "o", "o"];
+    let sampleX = ["X", "X", "X"];
+    let sampleO = ["O", "O", "O"];
     //divide 2d matrix to 8 1d matrices to check for consecutive x or o's
     let row0 = [];
     row0.push(board[0][0], board[0][1], board[0][2]);
@@ -98,29 +83,29 @@ const gameboard = (function () {
     diag1.push(board[0][2], board[1][1], board[2][0]);
     //check conditions
     if (arrayEquals(row0, sampleX)) {
-      return "x";
-    } else if (arrayEquals(row0, sampleO)) return "o";
+      return "X";
+    } else if (arrayEquals(row0, sampleO)) return "O";
     else if (arrayEquals(row1, sampleX)) {
-      return "x";
-    } else if (arrayEquals(row1, sampleO)) return "o";
+      return "X";
+    } else if (arrayEquals(row1, sampleO)) return "O";
     else if (arrayEquals(row2, sampleX)) {
-      return "x";
-    } else if (arrayEquals(row2, sampleO)) return "o";
+      return "X";
+    } else if (arrayEquals(row2, sampleO)) return "O";
     else if (arrayEquals(col0, sampleX)) {
-      return "x";
-    } else if (arrayEquals(col0, sampleO)) return "o";
+      return "X";
+    } else if (arrayEquals(col0, sampleO)) return "O";
     else if (arrayEquals(col1, sampleX)) {
-      return "x";
-    } else if (arrayEquals(col1, sampleO)) return "o";
+      return "X";
+    } else if (arrayEquals(col1, sampleO)) return "O";
     else if (arrayEquals(col2, sampleX)) {
-      return "x";
-    } else if (arrayEquals(col2, sampleO)) return "o";
+      return "X";
+    } else if (arrayEquals(col2, sampleO)) return "O";
     else if (arrayEquals(diag0, sampleX)) {
-      return "x";
-    } else if (arrayEquals(diag0, sampleO)) return "o";
+      return "X";
+    } else if (arrayEquals(diag0, sampleO)) return "O";
     else if (arrayEquals(diag1, sampleX)) {
-      return "x";
-    } else if (arrayEquals(diag1, sampleO)) return "o";
+      return "X";
+    } else if (arrayEquals(diag1, sampleO)) return "O";
     if (checkFill()) return "tie";
     return null;
   };
@@ -131,12 +116,12 @@ function gameController(playerOneName = "x", playerTwoName = "o") {
   const players = [
     {
       name: playerOneName,
-      token: "x",
+      token: "X",
       score: 0,
     },
     {
       name: playerTwoName,
-      token: "o",
+      token: "O",
       score: 0,
     },
   ];
@@ -166,12 +151,12 @@ function gameController(playerOneName = "x", playerTwoName = "o") {
       );
       gameboard.addToken(row, col, getActivePlayer().token);
       //check for win
-      if (gameboard.check() == "x") {
+      if (gameboard.check() == "X") {
         console.log("X won i.e Player 1 has won !!! Refresh to play again");
-        return "x";
-      } else if (gameboard.check() == "o") {
+        return "X";
+      } else if (gameboard.check() == "O") {
         console.log("O i.e. Player 2 has won!!! Refresh to play again");
-        return "o";
+        return "O";
       } else if (gameboard.check() == "tie") {
         console.log("The game tied Refresh to play again");
         return "tie";
@@ -189,21 +174,18 @@ function gameController(playerOneName = "x", playerTwoName = "o") {
   return {
     playRound,
     getActivePlayer,
-    // getBoard: board.getBoard
   };
 }
-// const game = gameController();
+
 const container = document.querySelector(".container");
 container.style.opacity = '0';
 
 function display(p1name, p2name) {
   container.style.opacity = '1';
   const game = gameController(p1name,p2name);
-  // let board = gameboard().getBoard();
-  // console.log(board);
   const playerTurnDiv = document.querySelector(".turn");
   playerTurnDiv.textContent = `${p1name} is X and ${p2name} is O, Let's Play!!!`;
-
+  const board = document.querySelector('.board');
   const btns = document.querySelectorAll(".btn");
   btns.forEach((btn) => {
     const rowIndex = parseInt(btn.dataset.rowIndex);
@@ -214,25 +196,32 @@ function display(p1name, p2name) {
         btn.textContent = game.getActivePlayer().token;
       } else return;
       const result = game.playRound(rowIndex, colIndex);
-      if (result == "x") {
+      if (result == "X") {
         playerTurnDiv.textContent =
           `${p1name} has won !!! Press Reset to play again`;
-    
+        btns.forEach((btn) => {
+            btn.style.boxShadow = '1px 1px 50px limegreen'
+          })
   
         return;
       }
-      if (result == "o") {
+      if (result == "O") {
         playerTurnDiv.textContent =
           `${p2name} has won !!! Press Reset to play again`;
-
+          btns.forEach((btn) => {
+            btn.style.boxShadow = '1px 1px 50px purple'
+          })
      
         return;
       }
       if (result == "tie") {
         playerTurnDiv.textContent = "Tied!! Nobody has won. Press Reset to play again";
+        btns.forEach((btn) => {
+          btn.style.boxShadow = '1px 1px 50px red'
+        })
         return;
       }
-      const reset = document.querySelector("#reset");
+      const reset = document.querySelector("#resetbtn");
       reset.addEventListener("click", () => {
         let board = gameboard.getBoard();
         console.log(gameboard);
@@ -245,6 +234,7 @@ function display(p1name, p2name) {
         }
         btns.forEach((btn) => {
           btn.textContent = "";
+          btn.style.boxShadow = "";
         });
         playerTurnDiv.textContent = '';
       });
