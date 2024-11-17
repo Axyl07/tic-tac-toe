@@ -1,3 +1,40 @@
+const dialog = document.querySelector("dialog");
+const open = document.querySelector(".openForm");
+open.addEventListener('click', () => {
+    dialog.show();
+})
+
+const input = document.querySelector('input');
+const start = document.querySelector('#start');
+start.addEventListener('click', () => {
+    const p1name = document.querySelector('#p1name');
+    const p2name = document.querySelector('#p2name');
+    if (p1name.value === '' || p2name.value === '') {
+    } else {
+      const player1name = p1name.value;
+      const player2name = p2name.value;
+      display(player1name, player2name);
+
+      
+        dialog.close();
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const gameboard = (function () {
   const row = 3;
   const col = 3;
@@ -104,9 +141,9 @@ function gameController(playerOneName = "x", playerTwoName = "o") {
     },
   ];
   // const board = gameboard();
-  console.log(players);
-  let p1score = players[0].score;
-  let p2score = players[1].score;
+  // console.log(players);
+  // let p1score = players[0].score;
+  // let p2score = players[1].score;
 
   let activePlayer = players[0];
   const switchPlayerTurn = () => {
@@ -156,14 +193,16 @@ function gameController(playerOneName = "x", playerTwoName = "o") {
   };
 }
 // const game = gameController();
+const container = document.querySelector(".container");
+container.style.opacity = '0';
 
-function display() {
-  const game = gameController();
+function display(p1name, p2name) {
+  container.style.opacity = '1';
+  const game = gameController(p1name,p2name);
   // let board = gameboard().getBoard();
   // console.log(board);
-  const container = document.querySelector(".container");
   const playerTurnDiv = document.querySelector(".turn");
-  const boardDiv = document.querySelector(".board");
+  playerTurnDiv.textContent = `${p1name} is X and ${p2name} is O, Let's Play!!!`;
 
   const btns = document.querySelectorAll(".btn");
   btns.forEach((btn) => {
@@ -177,20 +216,20 @@ function display() {
       const result = game.playRound(rowIndex, colIndex);
       if (result == "x") {
         playerTurnDiv.textContent =
-          "X won i.e Player 1 has won !!! Press Reset to play again";
+          `${p1name} has won !!! Press Reset to play again`;
     
   
         return;
       }
       if (result == "o") {
         playerTurnDiv.textContent =
-          "O won i.e Player 2 has won !!! Press Reset to play again";
+          `${p2name} has won !!! Press Reset to play again`;
 
      
         return;
       }
       if (result == "tie") {
-        playerTurnDiv.textContent = "Tied !! Press Reset to play again";
+        playerTurnDiv.textContent = "Tied!! Nobody has won. Press Reset to play again";
         return;
       }
       const reset = document.querySelector("#reset");
@@ -207,10 +246,10 @@ function display() {
         btns.forEach((btn) => {
           btn.textContent = "";
         });
+        playerTurnDiv.textContent = '';
       });
       console.log(game.getActivePlayer().token);
     });
   });
 }
 
-display();

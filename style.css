@@ -1,14 +1,14 @@
-*{
+/* *{
     background-color: black;
     color: white;
-}
+} */
 h1{
     display: flex;
     justify-content: center;
 }
 .container{
     padding: 20px;
-    border: 2px solied white;
+    border: 2px solied rgb(0, 0, 0);
     max-width: 50vw;
     width:  fit-content;
     height: 100vh;
@@ -25,7 +25,7 @@ h1{
 }
 .board > button{
     font-size: 35px;
-    border: 3px solid white;
+    border: 3px solid rgb(0, 0, 0);
     border-radius: 10px;
     height: 150px;
     width: 150px;
