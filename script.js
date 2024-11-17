@@ -184,7 +184,7 @@ function display(p1name, p2name) {
   container.style.opacity = '1';
   const game = gameController(p1name,p2name);
   const playerTurnDiv = document.querySelector(".turn");
-  playerTurnDiv.textContent = `${p1name} is X and ${p2name} is O, Let's Play!!!`;
+  playerTurnDiv.textContent = `${p1name} is 'X' and ${p2name} is 'O', Let's Play!!!`;
   const board = document.querySelector('.board');
   const btns = document.querySelectorAll(".btn");
   btns.forEach((btn) => {
