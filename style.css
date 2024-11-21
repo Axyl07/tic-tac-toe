@@ -52,11 +52,11 @@ h1 {
 .board > button {
   padding: 0px;
   transition: 0.1s ease-in-out;
-  font-size: 2rem;
+  font-size: 4rem;
   border: 3px solid rgb(255, 255, 255);
   border-radius: 15px;
-  height: 150px;
-  width: 150px;
+  height: 1.5em;
+  width: 1.5em;
 }
 .board > button:hover {
   cursor: pointer;
